@@ -11,7 +11,7 @@ In this recipe, we will use the [OpenAPI Generator](https://github.com/openapi/o
 ::: code-group
 
 ```sh [pnpm]
-pnpm install --dev openapi@^1.0.0 openapi-preset-effector typed-contracts
+pnpm install -D openapi@^1.0.0 openapi-preset-effector typed-contracts
 ```
 
 ```sh [yarn]
@@ -30,7 +30,7 @@ npm install --dev openapi@^1.0.0 openapi-preset-effector typed-contracts
 To prevent using many contract systems in your project, we recommend using `typed-contracts` across the whole project. Farfetched supports it out of the box, read more the API reference for [`@farfetched/typed-contracts`](/api/contracts/typed-contracts).
 :::
 
-2. Create base [_Effect_](https://effector.dev/docs/api/effector/effect) that will be used in the generated code, put it in the `./src/api/shared/request.ts` file. In general, it has to be any [_Effect_](https://effector.dev/docs/api/effector/effect) with the following signature:
+2. Create base [_Effect_](https://effector.dev/docs/api/effector/effect) that will be used in the generated code, put it in the `./src/shared/api/request.ts` file. In general, it has to be any [_Effect_](https://effector.dev/docs/api/effector/effect) with the following signature:
 
 ```ts
 export interface Request {
@@ -65,7 +65,7 @@ The full code of the file is out of scope of this recipe, but you can find it in
 ```js
 module.exports = {
   file: 'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v2.0/json/petstore-minimal.json',
-  outputDir: './src/api/shared',
+  outputDir: './src/shared/api',
   presets: [
     [
       'openapi-preset-effector',
@@ -103,11 +103,11 @@ npm openapi
 
 :::
 
-The generated code will be placed in the `./src/api/shared` directory. You must not touch it, because it will be overwritten on the next generation.
+The generated code will be placed in the `./src/shared/api` directory. You must not touch it, because it will be overwritten on the next generation.
 
 ## Make it farfetched
 
-Generated code contains [_Effects_](https://effector.dev/docs/api/effector/effect), but Farfetched's APIs work only with [_Query_](/api/primitives/query) or [_Mutation_](/api/primitives/mutation). So, we need to wrap the generated code with Farfetched's APIs. Let's create a file `./src/api/shared/index.ts` with the following contents:
+Generated code contains [_Effects_](https://effector.dev/docs/api/effector/effect), but Farfetched's APIs work only with [_Query_](/api/primitives/query) or [_Mutation_](/api/primitives/mutation). So, we need to wrap the generated code with Farfetched's APIs. Let's create a file `./src/shared/api/index.ts` with the following contents:
 
 ```ts
 import { createQuery } from '@farfetched/core';
@@ -122,7 +122,7 @@ Now, you can use `petsQuery` in your code as simple as any other [_Query_](/api/
 ```ts
 import { retry } from '@farfetched/core';
 
-import { petsQuery } from './api/shared';
+import { petsQuery } from './shared/api';
 
 retry(petsQuery, {
   times: 3,

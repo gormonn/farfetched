@@ -13,7 +13,7 @@ Farfetched does not require any special configuration for Vite for basic usage. 
 ::: code-group
 
 ```sh [pnpm]
-pnpm install --dev vite-plugin-babel
+pnpm install -D vite-plugin-babel
 ```
 
 ```sh [yarn]
